@@ -15,7 +15,7 @@ def main():
     receive = input('Введите событие:')
     all_objects = receive.split()  # деление на подсторки
     print(all_objects)
-                                                                                                                        #словари----------------------------------------------------------------------------------
+                                                                                                                        #словари------------------------------------------------------------------------------------------------------------
     Mondays=['в понедельник','каждый понедельник' , 'понедельник' ,'Понедельник' , 'по понедельникам' ,'понедельник']
     Tuesdays=['во вторник' , 'каждый вторник' , 'вторник' , 'Вторник' , 'по вторникам']
     Wendsdays=['в среду' , 'каждую среду' , 'среда' , 'Среда' , 'по средам' , 'среду']
@@ -53,7 +53,7 @@ def main():
     Afternoon=['день','днем','днём','Днем','Днём']
     Evening=['вечер','вечером','Вечером']
     Night=['ночь','ночью','Ночью']
-    #-------------------------------------------------------------------------------------------------------------------
+                                                                                                                        #-------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -85,55 +85,6 @@ def main():
         print(year_intext)
         print(month_intext)
         print(day_intext)
-
-
-
-
-
-    day_week_current=datetime.isoweekday(datetime.now())
-    day_week_compare=0
-    print(day_week_current)
-
-
-    for j in range (len(all_objects)):
-        if all_objects[j] in Mondays:
-            day_week='Monday'
-            day_week_compare=1
-        elif all_objects[j] in Tuesdays:
-            day_week='Tuesday'
-            day_week_compare=2
-        elif all_objects[j] in Wendsdays:
-            day_week='Wendsday'
-            day_week_compare=3
-        elif all_objects[j] in Thursdays:
-            day_week = 'Thursday'
-            day_week_compare = 4
-        elif all_objects[j] in Fridays:
-            day_week = 'Friday'
-            day_week_compare = 5
-        elif all_objects[j] in Saturdays:
-            day_week = 'Saturday'
-            day_week_compare = 6
-        elif all_objects[j] in Sundays:
-            day_week = 'Sunday'
-            day_week_compare = 7
-    if day_week:
-        for _ in range(2):
-            del all_objects[-2]
-    receive=' '.join(all_objects)
-    print(receive)
-    print(day_week)
-    print(day_week_compare)
-    if day_week_compare:
-        if day_week_compare>day_week_current:
-            #day=str(day)
-            #day=day_week
-            day=int(day_current)+(day_week_compare-day_week_current)
-            print(day)
-        elif day_week_compare<day_week_current:
-            day=int(day_current)+(day_week_compare-day_week_current+7)
-            print(day)
-
 
     #if 'в' in all_objects:
     #    print(all_objects.index('в'))
@@ -175,6 +126,25 @@ def main():
             hour = int(current_date_string[9:11])
             minute = int(current_date_string[12:14])
 
+
+    for h in  range (len(all_objects)):
+        if all_objects[h]=='каждое' and all_objects[h+1].isdigit() and all_objects[h+2]=='число' :
+            print(day)
+            if int(all_objects[h+1])<day:
+                day = int(all_objects[h + 1])
+                month+=1
+            else:
+                day = int(all_objects[h + 1])
+                for i in range(3):
+                    del all_objects[h]
+
+            receive=' '.join(all_objects)
+            status='Success'
+            print("Message:{", "'STATUS':", status, ",", "'PARAMS': {'repeat_always:'", day,'число', "}", "'DATE':{'year':",
+                  year, ",", "'month':", month, ",", "'day':", day, ",", "'hour':", hour, ",", "'minute':", minute,
+                  "}", ",", "'TEXT':", receive, "}", sep='')
+            exit()
+
     for q in range (len(all_objects)):
         if all_objects[q] in Mornings:
             print(q)
@@ -185,6 +155,115 @@ def main():
             all_objects.pop(all_objects.index(all_objects[q]))
             receive=' '.join(all_objects)
     print(receive)
+
+    day_week_current=datetime.isoweekday(datetime.now())
+    day_week_compare=0
+    print(day_week_current)
+
+
+    for j in range (len(all_objects)):
+        if all_objects[j] in Mondays:
+            day_week='Monday'
+            day_week_compare=1
+        elif all_objects[j] in Tuesdays:
+            day_week='Tuesday'
+            day_week_compare=2
+        elif all_objects[j] in Wendsdays:
+            day_week='Wendsday'
+            day_week_compare=3
+        elif all_objects[j] in Thursdays:
+            day_week = 'Thursday'
+            day_week_compare = 4
+        elif all_objects[j] in Fridays:
+            day_week = 'Friday'
+            day_week_compare = 5
+        elif all_objects[j] in Saturdays:
+            day_week = 'Saturday'
+            day_week_compare = 6
+        elif all_objects[j] in Sundays:
+            day_week = 'Sunday'
+            day_week_compare = 7
+
+
+    if day_week:
+        if len(all_objects)==3:
+            for _ in range(2):
+                del all_objects[-2]
+        else:
+            for _ in range(2):
+                del all_objects[-1]
+        receive = ' '.join(all_objects)
+        for i in range (len(all_objects)):
+            if all_objects[i]=='каждый' or all_objects[i]=='каждую' or all_objects[i]=='каждое' :
+                status='Success'
+                print("Message:{", "'STATUS':", status, ",", "'PARAMS': {'repeat_always:'", day_week, "}", "'DATE':{'year':",
+                      year, ",", "'month':", month, ",", "'day':", day, ",", "'hour':", hour, ",", "'minute':", minute,
+                      "}", ",", "'TEXT':", receive, "}", sep='')
+                exit()
+    for i in range (len(all_objects)):
+        if all_objects[i-1]=='по' and all_objects[i]=='выходным':
+            day_week = 'Saturday'
+            day_week_compare = 6
+            for o in range(2):
+                del all_objects[i]
+            receive = ' '.join(all_objects)
+            print(receive)
+
+    print(receive)
+    print(day_week)
+    print(day_week_compare)
+    if day_week_compare:
+        if day_week_compare>day_week_current:
+            #day=str(day)
+            #day=day_week
+            day=int(day_current)+(day_week_compare-day_week_current)
+            print(day)
+        elif day_week_compare<day_week_current:
+            day=int(day_current)+(day_week_compare-day_week_current+7)
+            print(day)
+
+    for i in range (len(all_objects)):
+        if all_objects[i]=='следующей' or all_objects[i]=='следующем' :
+            if all_objects[i]=='следующей' :
+                del all_objects[i]
+            elif all_objects[i]=='следующем' :
+                del all_objects[i]
+            for j in range (len(all_objects)):
+                if all_objects[j]=='неделе' :
+                    day+=7
+                    print(day)
+                    if day>30:
+                        day-=30
+                        month+=1
+                    del  all_objects [j]
+
+                elif all_objects[j]=='месяце' :
+                    month+=1
+                    del all_objects[j]
+
+                elif all_objects[j]=='году' :
+                    year+=1
+                    del all_objects[j]
+
+                receive=' '.join(all_objects)
+        else:
+            pass
+    for u in range (len(all_objects)):
+        if all_objects[u]=='сегодня' :
+            del all_objects[u]
+            print(all_objects)
+            receive = " ".join(all_objects)
+        elif all_objects[u]== 'завтра' :
+            day+=1
+            del all_objects[u]
+            print(all_objects)
+            receive = " ".join(all_objects)
+        elif all_objects[u]=='послезавтра' :
+            day+=2
+            del all_objects[j]
+            print(all_objects)
+            receive = " ".join(all_objects)
+
 
     match_find_delay_minute = re.findall('минут', receive)
     match_find_delay_hour = re.findall('час', receive)
@@ -220,6 +299,8 @@ def main():
                 sum_hours += 1
             else:
                 print('Каждые', find_delayed_hour, 'час', 'каждые', find_delayed_minute, 'минут')
+
+
         elif all_objects[index1] in every and all_objects[index1 + 1].isdigit() and all_objects[index1 + 2] in hours_for_delay:
             find_delayed_minute = 0
             sum_minutes = find_delayed_minute + minute
@@ -231,6 +312,31 @@ def main():
             else:
                 print('каждые', find_delayed_hour, 'часов', 'каждые', find_delayed_minute, 'минут')
 
+
+        elif all_objects[index1] in every and all_objects[index1 + 1] in hours_for_delay:
+            find_delayed_minute = 0
+            sum_minutes = find_delayed_minute + minute
+            find_delayed_hour = 1
+            sum_hours = hour + find_delayed_hour
+            while sum_hours > 24:
+                sum_hours -= 24
+                day += 1
+            else:
+                print('Каждый', find_delayed_hour, 'часов', 'каждый', find_delayed_minute, 'минут')
+                rem_list1 = [all_objects[index1], all_objects[index1 + 1]]
+                rem = ' '.join(rem_list1)
+                for _ in range(2):
+                    del all_objects[index1]
+                print(all_objects)
+                receive = " ".join(all_objects)
+                print(receive)
+                status = 'SUCCESS'
+                receive = re.sub('\w [0-2]\d:[0-5]\d', '', receive)
+                print("Message:{", "'STATUS':", status, ",", "'PARAMS': {'repeat_always:'", rem, "}", "'DATE':{'year':",
+                      year, ",", "'month':", month, ",", "'day':", day, ",", "'hour':", hour, ",", "'minute':", minute,
+                      "}", ",", "'TEXT':", receive, "}", sep='')
+                exit()
+
         rem_list=[all_objects[index1],all_objects[index1+1],all_objects[index1+2]]
         rem=' '.join(rem_list)
 
@@ -240,6 +346,7 @@ def main():
         receive = " ".join(all_objects)
         print(receive)
         status='SUCCESS'
+
         print("Message:{","'STATUS':",status,",", "'PARAMS': {'repeat_always:'",rem ,"}" ,"'DATE':{'year':",year,",","'month':",month,",","'day':",day,",","'hour':",hour,",","'minute':",minute,"}",",","'TEXT':", receive,"}",sep='')
         exit()
     if  (match_find_delay_minute or match_find_delay_hour) :
@@ -264,10 +371,14 @@ def main():
                     sum_minutes=find_delayed_minute+minute
                     find_delayed_hour = 0
                     sum_hours=find_delayed_hour+hour
+                    day_plus=0
                     print(sum_minutes)
-                    while sum_minutes> 60:
+                    while sum_minutes> 59:
                         sum_minutes-= 60
                         sum_hours += 1
+                    while sum_hours>23:
+                        sum_hours-=24
+                        day_plus+=1
                     else:
                         print('Через', find_delayed_hour, 'час', 'через', sum_minutes, 'минут')
 
@@ -278,9 +389,10 @@ def main():
                         sum_minutes=find_delayed_minute+minute
                         find_delayed_hour = int(all_objects[index + 1])
                         sum_hours=hour+find_delayed_hour
-                        while sum_hours > 24:
+                        day_plus=0
+                        while sum_hours > 23:
                             sum_hours -= 24
-                            day += 1
+                            day_plus += 1
                         else:
                             print('Через', find_delayed_hour, 'часов', 'через', find_delayed_minute, 'минут')
 
@@ -289,9 +401,10 @@ def main():
                         sum_minutes=find_delayed_minute+minute
                         find_delayed_hour = 1
                         sum_hours=hour+find_delayed_hour
-                        while sum_hours > 24:
+                        day_plus=0
+                        while sum_hours > 23:
                             sum_hours -= 24
-                            day += 1
+                            day_plus += 1
                         else:
                             print('Через', find_delayed_hour, 'часов', 'через', find_delayed_minute, 'минут')
 
@@ -300,12 +413,13 @@ def main():
                 sum_hours = hour + find_delayed_hour
                 find_delayed_minute = int(all_objects[index + 3])
                 sum_minutes = find_delayed_minute + minute
-                while sum_minutes > 60:
+                day_plus=0
+                while sum_minutes > 59:
                     sum_minutes -= 60
                     sum_hours += 1
-                while sum_hours > 24:
+                while sum_hours > 23:
                     sum_hours -= 24
-                    day += 1
+                    day_plus += 1
                 print('Через', find_delayed_hour, 'час', 'через', find_delayed_minute, 'минут')
 
         except AttributeError:
@@ -314,6 +428,7 @@ def main():
         else:
             minute=sum_minutes
             hour=sum_hours
+            day+=day_plus
             #if len(all_objects)-index>2:
             for _ in range(3):
                 del all_objects[index]
@@ -531,7 +646,7 @@ def main():
 
 
     for i in range(len(all_objects)):
-        if (all_objects[i].isdigit() and int(all_objects[i])<31) and all_objects[i+1].isalpha() :
+        if (all_objects[i].isdigit() and int(all_objects[i])<32) and all_objects[i+1].isalpha() :
             day_for_string_month=all_objects[i]
             try:
                 if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000) and all_objects[i+3]=='года':
@@ -582,58 +697,15 @@ def main():
                     print(string_month)
                     print(day_for_string_month)
                     print(string_year)
+                    if int(all_objects[i])>n:
+                        print('Ops,try again')
+                        receive=input()
+
+                        #exit()
                     break
     #print(string_month)
     #print(day_for_string_month)
 
-    if 'следующей' or 'следующем' in all_objects:
-        if 'следующей' in all_objects:
-            v=all_objects.index('следующей')
-            del all_objects[v]
-        elif 'следующем' in all_objects:
-            v=all_objects.index('следующем')
-            del all_objects[v]
-        if 'неделе' in all_objects:
-            day+=7
-            print(day)
-            if day>30:
-                day-=30
-                month+=1
-            d=all_objects.index('неделе')
-            del  all_objects [d]
-
-        elif 'месяце' in all_objects:
-            month+=1
-            c=all_objects.index('месяце')
-            del all_objects[c]
-        elif 'году' in all_objects:
-            year+=1
-            b=all_objects.index('году')
-            del all_objects[b]
-        receive=' '.join(all_objects)
-    else:
-        pass
-
-    if 'сегодня' in all_objects:
-        for i in range (len(all_objects)):
-            if all_objects[i]=='сегодня':
-                del all_objects[i]
-        print(all_objects)
-        receive = " ".join(all_objects)
-    elif 'завтра' in all_objects:
-        day+=1
-        for i in range (len(all_objects)):
-            if all_objects[i]=='завтра':
-                del all_objects[i]
-        print(all_objects)
-        receive = " ".join(all_objects)
-    elif 'послезавтра' in all_objects:
-        day+=2
-        for i in range (len(all_objects)):
-            if all_objects[i]=='послезавтра':
-                del all_objects[i]
-        print(all_objects)
-        receive = " ".join(all_objects)
 
 
 
@@ -680,8 +752,6 @@ def main():
                 year=string_year
                 for _ in range(2):
                     out_3.pop(all_objects.index(day_for_string_month))
-
-
             else:
                 pass
             out_3_str = str(' '.join(out_3))
