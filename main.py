@@ -649,8 +649,10 @@ def main():
         if (all_objects[i].isdigit() and int(all_objects[i])<32) and all_objects[i+1].isalpha() :
             day_for_string_month=all_objects[i]
             try:
-                if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000) and all_objects[i+3]=='года':
+                if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000): #and all_objects[i+3]=='года':
                     string_year=int(all_objects[i+2])
+                    print('dvssssssssssssssssssss')
+                    print(string_year)
             except IndexError:
                 pass
             for j in range (len(MONTHS)):
@@ -750,8 +752,8 @@ def main():
 
             if string_year:
                 year=string_year
-                for _ in range(2):
-                    out_3.pop(all_objects.index(day_for_string_month))
+                #for _ in range(2):
+                out_3.pop(all_objects.index(day_for_string_month))
             else:
                 pass
             out_3_str = str(' '.join(out_3))
