@@ -256,17 +256,18 @@ def main():
             receive = " ".join(all_objects)
 
         elif all_objects[u]== 'завтра' :
+
             day+=1
             del all_objects[u]
-            print(all_objects)
             receive = " ".join(all_objects)
+            print(receive)
 
         elif all_objects[u]=='послезавтра' :
             day+=2
             del all_objects[u]
             print(all_objects)
             receive = " ".join(all_objects)
-        break
+
 
     match_find_delay_minute = re.findall('минут', receive)
     match_find_delay_hour = re.findall('час', receive)
@@ -526,83 +527,83 @@ def main():
 
     if (match_find_delay_day or match_find_delay_month or match_find_delay_year):
         try:
-            if 'через' in all_objects:
-                index = all_objects.index('через')
-            elif 'Через' in all_objects:
-                index = all_objects.index('Через')
-            else:
-                for i in range(len(every)):
-                    if every[i] in all_objects:
-                        repeat1(year, month, day)
-                    else:
-                        pass
+            for index in range (len(all_objects)):
+                if  all_objects[index]=='через':
+                    index = all_objects.index('через')
+                elif all_objects[index]=='Через':
+                    index = all_objects.index('Через')
+                else:
+                    for i in range(len(every)):
+                        if every[i] in all_objects:
+                            repeat1(year, month, day)
+                        else:
+                            pass
             # raise ValueError ('Try again')
-
-            if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
-                index + 1].isdigit() and all_objects[index + 2] in days_for_dalay:
-                find_delayed_year = 0
-                sum_years = find_delayed_year + int(year_current)
-                find_delayed_month = 0
-                sum_months = find_delayed_month + int(month_current)
-                find_delayed_day = int(all_objects[index + 1])
-                sum_days = find_delayed_day + int(day_current)
-                while sum_days > 30:
-                    sum_days -= 30
-                    sum_months += 1
-                print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
-                      find_delayed_day, 'дня')
-
-            if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
-                index + 1].isdigit() and all_objects[index + 2] in months_for_delay:
-                find_delayed_year = 0
-                sum_years = find_delayed_year + int(year_current)
-                find_delayed_month = int(all_objects[index + 1])
-                sum_months = find_delayed_month + int(month_current)
-                find_delayed_day = 0
-                sum_days = find_delayed_day + int(day_current)
-                while sum_months > 12:
-                    sum_months -= 12
-                    sum_years += 1
-                print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
-                      find_delayed_day, 'дней')
-
-            if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
-                index + 1].isdigit() and all_objects[index + 2] in years_for_delay:
-                find_delayed_year = int(all_objects[index + 1])
-                sum_years = find_delayed_year + int(year_current)
-                find_delayed_month = 0
-                sum_months = find_delayed_month + int(month_current)
-                find_delayed_day = 0
-                sum_days = find_delayed_day + int(day_current)
-                print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
-                      find_delayed_day,
-                      'дней')
-
-            if match_find_delay_day and match_find_delay_month and match_find_delay_year:
                 if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
-                    index + 1].isdigit() and (
-                        all_objects[index + 2] == 'год' or all_objects[index + 2] == 'года' or
-                        all_objects[index + 2] == 'лет') and all_objects[index + 3].isdigit() and (
-                        all_objects[index + 4] == 'месяц'
-                        or all_objects[index + 4] == 'месяца' or all_objects[index + 4] == 'месяцев') and \
-                        all_objects[index + 5].isdigit() and (all_objects[index + 6] == 'день' or
-                                                              all_objects[index + 6] == 'дня' or all_objects[
-                                                                  index + 6] == 'дней'):
-                    find_delayed_year = all_objects[index + 1]
+                    index + 1].isdigit() and all_objects[index + 2] in days_for_dalay:
+                    find_delayed_year = 0
                     sum_years = find_delayed_year + int(year_current)
-                    find_delayed_month = all_objects[index + 3]
+                    find_delayed_month = 0
                     sum_months = find_delayed_month + int(month_current)
-                    find_delayed_day = all_objects[index + 5]
+                    find_delayed_day = int(all_objects[index + 1])
                     sum_days = find_delayed_day + int(day_current)
                     while sum_days > 30:
                         sum_days -= 30
                         sum_months += 1
+                    print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
+                          find_delayed_day, 'дня')
+
+                if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
+                    index + 1].isdigit() and all_objects[index + 2] in months_for_delay:
+                    find_delayed_year = 0
+                    sum_years = find_delayed_year + int(year_current)
+                    find_delayed_month = int(all_objects[index + 1])
+                    sum_months = find_delayed_month + int(month_current)
+                    find_delayed_day = 0
+                    sum_days = find_delayed_day + int(day_current)
                     while sum_months > 12:
                         sum_months -= 12
                         sum_years += 1
                     print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
+                          find_delayed_day, 'дней')
+
+                if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
+                    index + 1].isdigit() and all_objects[index + 2] in years_for_delay:
+                    find_delayed_year = int(all_objects[index + 1])
+                    sum_years = find_delayed_year + int(year_current)
+                    find_delayed_month = 0
+                    sum_months = find_delayed_month + int(month_current)
+                    find_delayed_day = 0
+                    sum_days = find_delayed_day + int(day_current)
+                    print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
                           find_delayed_day,
                           'дней')
+
+                if match_find_delay_day and match_find_delay_month and match_find_delay_year:
+                    if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
+                        index + 1].isdigit() and (
+                            all_objects[index + 2] == 'год' or all_objects[index + 2] == 'года' or
+                            all_objects[index + 2] == 'лет') and all_objects[index + 3].isdigit() and (
+                            all_objects[index + 4] == 'месяц'
+                            or all_objects[index + 4] == 'месяца' or all_objects[index + 4] == 'месяцев') and \
+                            all_objects[index + 5].isdigit() and (all_objects[index + 6] == 'день' or
+                                                                  all_objects[index + 6] == 'дня' or all_objects[
+                                                                      index + 6] == 'дней'):
+                        find_delayed_year = all_objects[index + 1]
+                        sum_years = find_delayed_year + int(year_current)
+                        find_delayed_month = all_objects[index + 3]
+                        sum_months = find_delayed_month + int(month_current)
+                        find_delayed_day = all_objects[index + 5]
+                        sum_days = find_delayed_day + int(day_current)
+                        while sum_days > 30:
+                            sum_days -= 30
+                            sum_months += 1
+                        while sum_months > 12:
+                            sum_months -= 12
+                            sum_years += 1
+                        print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
+                              find_delayed_day,
+                              'дней')
 
 
         except IndexError:
