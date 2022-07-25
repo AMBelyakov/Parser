@@ -652,7 +652,8 @@ def main():
 
 
     for i in range(len(all_objects)):
-        if (all_objects[i].isdigit() and int(all_objects[i])<32) and all_objects[i+1].isalpha() :
+
+        if (all_objects[i-1]!='через' or all_objects[i-1]!='через')and (all_objects[i].isdigit() and int(all_objects[i])<32) and all_objects[i+1].isalpha() :
             day_for_string_month=all_objects[i]
             try:
                 if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000): #and all_objects[i+3]=='года':
@@ -704,9 +705,10 @@ def main():
                     print(string_month)
                     print(day_for_string_month)
                     print(string_year)
-            if int(day_for_string_month)>n:
-                print('Try again')
-                main()
+                    print(n)
+    if int(day_for_string_month)>n:
+        print('Try again')
+        main()
                 #exit()
 
                         # while flag==1:
