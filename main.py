@@ -51,7 +51,7 @@ def main():
 
 
     Mornings=['утро','утром','Утром']
-    Afternoon=['день','днем','днём','Днем','Днём']
+    Afternoon=['днем','днём','Днем','Днём']
     Evening=['вечер','вечером','Вечером']
     Night=['ночь','ночью','Ночью']
                                                                                                                         #-------------------------------------------------------------------------------------------------------------------
@@ -145,40 +145,45 @@ def main():
                   year, ",", "'month':", month, ",", "'day':", day, ",", "'hour':", hour, ",", "'minute':", minute,
                   "}", ",", "'TEXT':", receive, "}", sep='')
             exit()
-
-    for q in range (len(all_objects)):
-        if all_objects[q] in Mornings:
-            print(q)
-            hour=str(hour)
-            hour='06'
-            minute=str(minute)
-            minute='00'
-            all_objects.pop(all_objects.index(all_objects[q]))
-            receive=' '.join(all_objects)
-        elif all_objects[q] in Afternoon:
-            print(q)
-            hour=str(hour)
-            hour='12'
-            minute=str(minute)
-            minute='00'
-            all_objects.pop(all_objects.index(all_objects[q]))
-            receive=' '.join(all_objects)
-        elif all_objects[q] in Evening:
-            print(q)
-            hour=str(hour)
-            hour='18'
-            minute=str(minute)
-            minute='00'
-            all_objects.pop(all_objects.index(all_objects[q]))
-            receive=' '.join(all_objects)
-        elif  all_objects[q] in Night:
-            print(q)
-            hour=str(hour)
-            hour='00'
-            minute=str(minute)
-            minute='00'
-            all_objects.pop(all_objects.index(all_objects[q]))
-            receive=' '.join(all_objects)
+    try:
+        for q in range (len(all_objects)):
+            if all_objects[q] in Mornings:
+                print(q)
+                hour=str(hour)
+                hour='06'
+                minute=str(minute)
+                minute='00'
+                all_objects.pop(all_objects.index(all_objects[q]))
+                receive=' '.join(all_objects)
+            if all_objects[q - 1] != 'через' or all_objects[q - 1] != 'Через':
+                if all_objects[q] in Afternoon:
+                        print(q)
+                        hour=str(hour)
+                        hour='12'
+                        minute=str(minute)
+                        minute='00'
+                        all_objects.pop(all_objects.index(all_objects[q]))
+                        receive=' '.join(all_objects)
+                else:
+                    pass
+            elif all_objects[q] in Evening:
+                print(q)
+                hour=str(hour)
+                hour='18'
+                minute=str(minute)
+                minute='00'
+                all_objects.pop(all_objects.index(all_objects[q]))
+                receive=' '.join(all_objects)
+            elif  all_objects[q] in Night:
+                print(q)
+                hour=str(hour)
+                hour='00'
+                minute=str(minute)
+                minute='00'
+                all_objects.pop(all_objects.index(all_objects[q]))
+                receive=' '.join(all_objects)
+    except IndexError:
+        pass
 
     print(receive)
 
@@ -417,6 +422,24 @@ def main():
                         print('Через', find_delayed_hour, 'час', 'через', sum_minutes, 'минут')
 
 
+            if (all_objects[index] == 'Через' or all_objects[index] == 'через')  and all_objects[index + 1] in minutes_for_dalay:
+                    find_delayed_minute = 1
+                    sum_minutes=find_delayed_minute+minute
+                    find_delayed_hour = 0
+                    sum_hours=find_delayed_hour+hour
+                    day_plus=0
+                    print(sum_minutes)
+                    while sum_minutes> 59:
+                        sum_minutes-= 60
+                        sum_hours += 1
+                    while sum_hours>23:
+                        sum_hours-=24
+                        day_plus+=1
+                    else:
+                        print('Через', find_delayed_hour, 'час', 'через', sum_minutes, 'минут')
+
+
+
 
             elif (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[index + 1].isdigit() and all_objects[index + 2] in hours_for_delay:
                         find_delayed_minute = 0
@@ -464,8 +487,12 @@ def main():
             hour=sum_hours
             day+=day_plus
             #if len(all_objects)-index>2:
-            for _ in range(3):
-                del all_objects[index]
+            if all_objects[index + 1].isdigit() :
+                for _ in range(3):
+                    del all_objects[index]
+            elif all_objects[index + 1].isalpha() :
+                for _ in range(2):
+                    del all_objects[index]
             print(all_objects)
             receive=" ".join(all_objects)
             #elif len(all_objects)-index>5:
@@ -586,6 +613,19 @@ def main():
                 print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
                       find_delayed_day, 'дня')
 
+            if (all_objects[index] == 'Через' or all_objects[index] == 'через') and  all_objects[index + 1] in days_for_dalay:
+                find_delayed_year = 0
+                sum_years = find_delayed_year + int(year_current)
+                find_delayed_month = 0
+                sum_months = find_delayed_month + int(month_current)
+                find_delayed_day = 1
+                sum_days = find_delayed_day + int(day_current)
+                while sum_days > 30:
+                    sum_days -= 30
+                    sum_months += 1
+                print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
+                      find_delayed_day, 'дня')
+
 
             if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
                 index + 1].isdigit() and all_objects[index + 2] in months_for_delay:
@@ -601,9 +641,34 @@ def main():
                 print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
                       find_delayed_day, 'дней')
 
+            if (all_objects[index] == 'Через' or all_objects[index] == 'через') and  all_objects[index + 1] in months_for_delay:
+                find_delayed_year = 0
+                sum_years = find_delayed_year + int(year_current)
+                find_delayed_month = 1
+                sum_months = find_delayed_month + int(month_current)
+                find_delayed_day = 0
+                sum_days = find_delayed_day + int(day_current)
+                while sum_months > 12:
+                    sum_months -= 12
+                    sum_years += 1
+                print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
+                      find_delayed_day, 'дней')
+
             if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
                 index + 1].isdigit() and all_objects[index + 2] in years_for_delay:
                 find_delayed_year = int(all_objects[index + 1])
+                sum_years = find_delayed_year + int(year_current)
+                find_delayed_month = 0
+                sum_months = find_delayed_month + int(month_current)
+                find_delayed_day = 0
+                sum_days = find_delayed_day + int(day_current)
+                print('-----------------',sum_days,'----------------------------')
+                print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
+                      find_delayed_day,
+                      'дней')
+
+            if (all_objects[index] == 'Через' or all_objects[index] == 'через')  and all_objects[index + 1] in years_for_delay:
+                find_delayed_year = 1
                 sum_years = find_delayed_year + int(year_current)
                 find_delayed_month = 0
                 sum_months = find_delayed_month + int(month_current)
@@ -648,22 +713,7 @@ def main():
             day = sum_days
             month = sum_months
             year = sum_years
-            # if find_delayed_day:
-            #    day=day+int(find_delayed_day)
-            # else:
-            #    day=day_current
-            # if find_delayed_month:
-            #    month=month+int(find_delayed_month)
-            # else:
-            #    month=month_current
-            # if find_delayed_year:
-            #    year = year + int(find_delayed_year)
-            # else:
-            #    year=year_current
-            # if find_delayed_year and  find_delayed_month and  find_delayed_day:
-            #    year = year + int(find_delayed_year)
-            #    month = month + int(find_delayed_month)
-            #    day = day + int(find_delayed_day)
+
             print(year)
             print(month)
             print(day)
@@ -672,8 +722,15 @@ def main():
             print(receive)
             print('------------------------')
             print(index)
-            for _ in range(3):
-                del all_objects[index]
+            if all_objects[index + 1].isdigit() and all_objects[index + 3].isdigit():
+                for _ in range(6):
+                    del all_objects[index]
+            elif all_objects[index + 1].isdigit():
+                for _ in range(3):
+                    del all_objects[index]
+            elif all_objects[index + 1].isalpha():
+                for _ in range(2):
+                    del all_objects[index]
             print(all_objects)
             receive = " ".join(all_objects)
             #elif len(all_objects) - index > 6:
@@ -687,63 +744,68 @@ def main():
 
 
 
-
-    for i in range(len(all_objects)):
-        if(all_objects[i].isdigit() and int(all_objects[i])<32) and all_objects[i+1].isalpha() and (all_objects[i+1]!='лет'and all_objects[i+1]!='год' and all_objects[i+1]!='месяц' and all_objects[i+1]!='месяца' and all_objects[i+1]!='день' and all_objects[i+1]!='дня' and all_objects[i+1]!='дней'and all_objects[i+1]!='минут' and all_objects[i+1]!='минуты' and all_objects[i+1]!='час' and all_objects[i+1]!='часа') :
-            day_for_string_month=all_objects[i]
-            try:
-                if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000): #and all_objects[i+3]=='года':
-                    string_year=int(all_objects[i+2])
-                    print(string_year)
-            except IndexError:
+    try:
+        for i in range(len(all_objects)):
+            if (all_objects[i] == 'через' or all_objects[i] == 'Через'):
                 pass
-            for j in range (len(MONTHS)):
-                if all_objects[i+1] in MONTHS[j]:
-                    print(MONTHS[j]) # поиск месяца
-                    if MONTHS[j] == Januarys:
-                        string_month = '01'
-                        n = 31
-                    elif MONTHS[j] == Februarys:
-                        string_month = '02'
-                        n = 28
-                    elif MONTHS[j] == Marchs:
-                        string_month = '03'
-                        n = 31
-                    elif MONTHS[j] == Aprils:
-                        string_month = '04'
-                        n = 30
-                    elif MONTHS[j] == Mays:
-                        string_month = '05'
-                        n = 31
-                    elif MONTHS[j] == Junes:
-                        string_month = '06'
-                        n = 30
-                    elif MONTHS[j] == Julys:
-                        string_month = '07'
-                        n = 31
-                    elif MONTHS[j] == Augusts:
-                        string_month = '08'
-                        n = 31
-                    elif MONTHS[j] == Septembers:
-                        string_month = '09'
-                        n = 30
-                    elif MONTHS[j] == Octobers:
-                        string_month = '10'
-                        n = 31
-                    elif MONTHS[j] == Novembers:
-                        string_month = '11'
-                        n = 30
-                    elif MONTHS[j] == Decembers:
-                        string_month = '12'
-                        n = 31
-                    else:
-                        string_month = ''
-                    print(string_month)
-                    print(day_for_string_month)
-                    print(string_year)
-                    print(n)
-    print(day_for_string_month)
-    print(n)
+            else:
+                if   (all_objects[i+1].isdigit() and int(all_objects[i+1])<32) and all_objects[i+2].isalpha(): #and (all_objects[i+2]!='лет'and all_objects[i+2]!='год' and all_objects[i+1]!='месяц' and all_objects[i+2]!='месяца' and all_objects[i+2]!='день' and all_objects[i+2]!='дня' and all_objects[i+2]!='дней'and all_objects[i+2]!='минут' and all_objects[i+2]!='минуты' and all_objects[i+2]!='час' and all_objects[i+2]!='часа') :
+                        day_for_string_month=all_objects[i+1]
+                        try:
+                            if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000): #and all_objects[i+3]=='года':
+                                string_year=int(all_objects[i+2])
+                                print(string_year)
+                        except IndexError:
+                            pass
+                        for j in range (len(MONTHS)):
+                            if all_objects[i+1] in MONTHS[j]:
+                                print(MONTHS[j]) # поиск месяца
+                                if MONTHS[j] == Januarys:
+                                    string_month = '01'
+                                    n = 31
+                                elif MONTHS[j] == Februarys:
+                                    string_month = '02'
+                                    n = 28
+                                elif MONTHS[j] == Marchs:
+                                    string_month = '03'
+                                    n = 31
+                                elif MONTHS[j] == Aprils:
+                                    string_month = '04'
+                                    n = 30
+                                elif MONTHS[j] == Mays:
+                                    string_month = '05'
+                                    n = 31
+                                elif MONTHS[j] == Junes:
+                                    string_month = '06'
+                                    n = 30
+                                elif MONTHS[j] == Julys:
+                                    string_month = '07'
+                                    n = 31
+                                elif MONTHS[j] == Augusts:
+                                    string_month = '08'
+                                    n = 31
+                                elif MONTHS[j] == Septembers:
+                                    string_month = '09'
+                                    n = 30
+                                elif MONTHS[j] == Octobers:
+                                    string_month = '10'
+                                    n = 31
+                                elif MONTHS[j] == Novembers:
+                                    string_month = '11'
+                                    n = 30
+                                elif MONTHS[j] == Decembers:
+                                    string_month = '12'
+                                    n = 31
+                                else:
+                                    string_month = ''
+                                print(string_month)
+                                print(day_for_string_month)
+                                print(string_year)
+                                print(n)
+                print(day_for_string_month)
+                print(n)
+    except IndexError:
+        pass
     if int(day_for_string_month)>n:
         print('Try again')
         main()
@@ -817,7 +879,7 @@ def main():
         print("Message:{","'STATUS':",status,",","'DATE':{'year':",year,",","'month':",month_out,",","'day':",day_out,",","'hour':",hour,",","'minute':",minute,"}",",","'TEXT':", out,"}",sep='')
 
     else:
-        status='FAILURE'
+        status='ERROR'
         print('Ошибка',status) #См 189
 
 if __name__ == '__main__':
