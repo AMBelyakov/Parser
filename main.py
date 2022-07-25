@@ -221,49 +221,52 @@ def main():
         elif day_week_compare<day_week_current:
             day=int(day_current)+(day_week_compare-day_week_current+7)
             print(day)
+    try:
+        for i in range (len(all_objects)):
+            if all_objects[i]=='следующей' or all_objects[i]=='следующем' :
+                if all_objects[i]=='следующей' :
+                    del all_objects[i]
+                elif all_objects[i]=='следующем' :
+                    del all_objects[i]
+                for j in range (len(all_objects)):
+                    if all_objects[j]=='неделе' :
+                        day+=6
+                        print(day)
+                        if day>30:
+                            day-=30
+                            month+=1
+                        del  all_objects [j]
 
-    for i in range (len(all_objects)):
-        if all_objects[i]=='следующей' or all_objects[i]=='следующем' :
-            if all_objects[i]=='следующей' :
-                del all_objects[i]
-            elif all_objects[i]=='следующем' :
-                del all_objects[i]
-            for j in range (len(all_objects)):
-                if all_objects[j]=='неделе' :
-                    day+=7
-                    print(day)
-                    if day>30:
-                        day-=30
+                    elif all_objects[j]=='месяце' :
                         month+=1
-                    del  all_objects [j]
+                        del all_objects[j]
 
-                elif all_objects[j]=='месяце' :
-                    month+=1
-                    del all_objects[j]
+                    elif all_objects[j]=='году' :
+                        year+=1
+                        del all_objects[j]
 
-                elif all_objects[j]=='году' :
-                    year+=1
-                    del all_objects[j]
-
-                receive=' '.join(all_objects)
-        else:
-            pass
+                    receive=' '.join(all_objects)
+    except IndexError:
+        pass
     for u in range (len(all_objects)):
+
         if all_objects[u]=='сегодня' :
             del all_objects[u]
             print(all_objects)
             receive = " ".join(all_objects)
+
         elif all_objects[u]== 'завтра' :
             day+=1
             del all_objects[u]
             print(all_objects)
             receive = " ".join(all_objects)
+
         elif all_objects[u]=='послезавтра' :
             day+=2
-            del all_objects[j]
+            del all_objects[u]
             print(all_objects)
             receive = " ".join(all_objects)
-
+        break
 
     match_find_delay_minute = re.findall('минут', receive)
     match_find_delay_hour = re.findall('час', receive)
@@ -645,13 +648,14 @@ def main():
     #delayed_action(find_delayed_hour, find_delayed_minute)
 
 
+
+
     for i in range(len(all_objects)):
         if (all_objects[i].isdigit() and int(all_objects[i])<32) and all_objects[i+1].isalpha() :
             day_for_string_month=all_objects[i]
             try:
                 if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000): #and all_objects[i+3]=='года':
                     string_year=int(all_objects[i+2])
-                    print('dvssssssssssssssssssss')
                     print(string_year)
             except IndexError:
                 pass
@@ -699,12 +703,17 @@ def main():
                     print(string_month)
                     print(day_for_string_month)
                     print(string_year)
-                    if int(all_objects[i])>n:
-                        print('Ops,try again')
-                        receive=input()
+            if int(day_for_string_month)>n:
+                print('Try again')
+                main()
+                #exit()
 
-                        #exit()
-                    break
+                        # while flag==1:
+           #     print('Try again')
+                #continue
+
+
+
     #print(string_month)
     #print(day_for_string_month)
 
