@@ -9,7 +9,8 @@ def main():
         string_month,day_for_string_month,string_year, sum_minutes,sum_hours,sum_days,sum_months,sum_years, counter
 
     string_month=''
-    day_for_string_month=''
+    day_for_string_month=0
+    n=0
     string_year=''
     day_week=''
     receive = input('Введите событие:')
@@ -25,18 +26,18 @@ def main():
     Sundays=['в воскресенье' , 'каждое воскресенье' , 'воскресенье' , 'Воскресенье' , 'по воскресеньям']
     WEEK=[Mondays,Tuesdays,Wendsdays,Thursdays,Fridays,Saturdays,Sundays]
 
-    Septembers=['сентябрь' , 'сентября']
-    Octobers=['октябрь' , 'октября']
-    Novembers=['ноябрь' , 'ноября']
-    Decembers=['декабрь' , 'декабря']
-    Januarys=['январь' , 'января']
-    Februarys=['февраль' , 'февраля']
-    Marchs=['март' , 'марта']
-    Aprils=['апрель' , 'апреля']
-    Mays=['май' , 'мая']
-    Junes=['июнь' , 'июня']
-    Julys=['июль' , 'июля']
-    Augusts=['август' , 'августа']
+    Septembers=['сентябрь' , 'сентября',30]
+    Octobers=['октябрь' , 'октября',31]
+    Novembers=['ноябрь' , 'ноября',30]
+    Decembers=['декабрь' , 'декабря',31]
+    Januarys=['январь' , 'января',30]
+    Februarys=['февраль' , 'февраля',28]
+    Marchs=['март' , 'марта',31]
+    Aprils=['апрель' , 'апреля',30]
+    Mays=['май' , 'мая',31]
+    Junes=['июнь' , 'июня',30]
+    Julys=['июль' , 'июля',31]
+    Augusts=['август' , 'августа',31]
     MONTHS=[Septembers,Octobers,Novembers,Decembers,Januarys,Februarys,Marchs,Aprils,Mays,Junes,Julys,Augusts]
 
     minutes_for_dalay=['минуту' , 'минуты','минут']
@@ -221,6 +222,9 @@ def main():
         elif day_week_compare<day_week_current:
             day=int(day_current)+(day_week_compare-day_week_current+7)
             print(day)
+        elif day_week_compare==day_week_current:
+            day=int(day_current)+7
+            print(day)
     try:
         for i in range (len(all_objects)):
             if all_objects[i]=='следующей' or all_objects[i]=='следующем' :
@@ -228,6 +232,7 @@ def main():
                     del all_objects[i]
                 elif all_objects[i]=='следующем' :
                     del all_objects[i]
+                del all_objects[i-1 ]
                 for j in range (len(all_objects)):
                     if all_objects[j]=='неделе' :
                         day+=6
@@ -634,7 +639,8 @@ def main():
             print(month)
             print(day)
 
-            if len(all_objects) - index > 2:
+            if len(all_objects) - index > 3:
+                print('gsakhhhhhhhhhhhhhhhhhhhhhhhhhh')
                 for _ in range(3):
                     del all_objects[index]
                 print(all_objects)
@@ -706,6 +712,7 @@ def main():
                     print(day_for_string_month)
                     print(string_year)
                     print(n)
+
     if int(day_for_string_month)>n:
         print('Try again')
         main()
@@ -719,6 +726,8 @@ def main():
 
     #print(string_month)
     #print(day_for_string_month)
+
+
 
 
 
