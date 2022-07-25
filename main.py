@@ -60,7 +60,6 @@ def main():
 
     current_date = datetime.now()                                                                                       #текущие: month day year hour minute                                    обработка лет месяцев дней
     current_date_string = current_date.strftime('%m/%d/%y %H:%M:%S')                                                    #hour и minute далее
-    print("Текущие значения:",current_date_string)
     month_current=current_date_string[1]
     day_current = current_date_string[3:5]
     year_current=current_date_string[6:8]
@@ -70,7 +69,6 @@ def main():
         match = re.search(r'\d{2}.\d{2}.\d{4}', receive)                                                                # находим день месяц год из сообщения  в формате даты
         date_intext = datetime.strptime(match.group(), '%d.%m.%Y').date()
     except  (AttributeError,ValueError):
-        print('Нет даты в формате dd.mm.yyyy или ошибка ввода даты')
         year=int(year_current)+2000
         month=int(month_current)
         day=int(day_current)
@@ -720,7 +718,7 @@ def main():
                         except IndexError:
                             pass
                         for j in range (len(MONTHS)):
-                            if all_objects[i+1] in MONTHS[j]:
+                            if all_objects[i+2] in MONTHS[j]:
                                 print(MONTHS[j]) # поиск месяца
                                 if MONTHS[j] == Januarys:
                                     string_month = '01'
@@ -737,6 +735,7 @@ def main():
                                 elif MONTHS[j] == Mays:
                                     string_month = '05'
                                     n = 31
+                                    print(n)
                                 elif MONTHS[j] == Junes:
                                     string_month = '06'
                                     n = 30
@@ -760,11 +759,15 @@ def main():
                                     n = 31
                                 else:
                                     string_month = ''
+                        print(n)
+                        print(day_for_string_month)
+                        if int(day_for_string_month) > n:
+                            print('Try again')
+                            main()
     except IndexError:
         pass
-    if int(day_for_string_month)>n:
-        print('Try again')
-        main()
+
+
 
 
     out_1 = re.sub('\w [0-2]\d:[0-5]\d', '', receive)                                                                      #удаление времени формата dd:dd из сообщения
