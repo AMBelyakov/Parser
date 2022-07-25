@@ -83,15 +83,8 @@ def main():
         year=int(year_intext)
         month=int(month_intext)
         day=int(day_intext)
-        print(year_intext)
-        print(month_intext)
-        print(day_intext)
 
-    #if 'в' in all_objects:
-    #    print(all_objects.index('в'))
-    #    for _ in range (2):
-    #        all_objects.pop(all_objects.index('в'))
-    #    receive=' '.join(all_objects)
+
                                                                                                                         #обработка часов и минут
     hour_current = int(current_date_string[9:11])
     minute_current = int(current_date_string[12:14])
@@ -185,11 +178,11 @@ def main():
     except IndexError:
         pass
 
-    print(receive)
+
 
     day_week_current=datetime.isoweekday(datetime.now())
     day_week_compare=0
-    print(day_week_current)
+
 
 
     for j in range (len(all_objects)):
@@ -240,13 +233,9 @@ def main():
             receive = ' '.join(all_objects)
             print(receive)
 
-    print(receive)
-    print(day_week)
-    print(day_week_compare)
+
     if day_week_compare:
         if day_week_compare>day_week_current:
-            #day=str(day)
-            #day=day_week
             day=int(day_current)+(day_week_compare-day_week_current)
             print(day)
         elif day_week_compare<day_week_current:
@@ -381,9 +370,8 @@ def main():
 
         for _ in range(3):
             del all_objects[index1]
-        print(all_objects)
         receive = " ".join(all_objects)
-        print(receive)
+
         status='SUCCESS'
 
         print("Message:{","'STATUS':",status,",", "'PARAMS': {'repeat_always:'",rem ,"}" ,"'DATE':{'year':",year,",","'month':",month,",","'day':",day,",","'hour':",hour,",","'minute':",minute,"}",",","'TEXT':", receive,"}",sep='')
@@ -401,7 +389,6 @@ def main():
                 for i in range(len(every)):
                     if every[i]in all_objects:
                         repeat(day)
-                #raise ValueError('Try again')
                     else:
                         pass
 
@@ -411,7 +398,6 @@ def main():
                     find_delayed_hour = 0
                     sum_hours=find_delayed_hour+hour
                     day_plus=0
-                    print(sum_minutes)
                     while sum_minutes> 59:
                         sum_minutes-= 60
                         sum_hours += 1
@@ -428,7 +414,6 @@ def main():
                     find_delayed_hour = 0
                     sum_hours=find_delayed_hour+hour
                     day_plus=0
-                    print(sum_minutes)
                     while sum_minutes> 59:
                         sum_minutes-= 60
                         sum_hours += 1
@@ -493,7 +478,6 @@ def main():
             elif all_objects[index + 1].isalpha() :
                 for _ in range(2):
                     del all_objects[index]
-            print(all_objects)
             receive=" ".join(all_objects)
             #elif len(all_objects)-index>5:
              #   for _ in range(6):
@@ -573,9 +557,7 @@ def main():
 
         for _ in range(3):
             del all_objects[index1]
-        print(all_objects)
         receive = " ".join(all_objects)
-        print(receive)
         status = 'SUCCESS'
         print("Message:{", "'STATUS':", status, ",", "'PARAMS': {'repeat_always:'", rem, "}", "'DATE':{'year':",
               year,
@@ -597,7 +579,6 @@ def main():
                     else:
                         pass
 
-            # raise ValueError ('Try again')
             if (all_objects[index] == 'Через' or all_objects[index] == 'через') and all_objects[
                 index + 1].isdigit() and all_objects[index + 2] in days_for_dalay:
 
@@ -662,7 +643,6 @@ def main():
                 sum_months = find_delayed_month + int(month_current)
                 find_delayed_day = 0
                 sum_days = find_delayed_day + int(day_current)
-                print('-----------------',sum_days,'----------------------------')
                 print('Через', find_delayed_year, 'лет', 'через', find_delayed_month, 'месяцев', 'через',
                       find_delayed_day,
                       'дней')
@@ -714,14 +694,6 @@ def main():
             month = sum_months
             year = sum_years
 
-            print(year)
-            print(month)
-            print(day)
-
-
-            print(receive)
-            print('------------------------')
-            print(index)
             if all_objects[index + 1].isdigit() and all_objects[index + 3].isdigit():
                 for _ in range(6):
                     del all_objects[index]
@@ -733,15 +705,6 @@ def main():
                     del all_objects[index]
             print(all_objects)
             receive = " ".join(all_objects)
-            #elif len(all_objects) - index > 6:
-               #for _ in range(6):
-                    #del all_objects[index]
-               # print(all_objects)
-                #receive = " ".join(all_objects)
-                # конец обработки лет месяцев дней
-
-    #delayed_action(find_delayed_hour, find_delayed_minute)
-
 
 
     try:
@@ -754,7 +717,6 @@ def main():
                         try:
                             if (all_objects[i+2].isdigit() and int(all_objects[i+2])>2000): #and all_objects[i+3]=='года':
                                 string_year=int(all_objects[i+2])
-                                print(string_year)
                         except IndexError:
                             pass
                         for j in range (len(MONTHS)):
@@ -798,45 +760,18 @@ def main():
                                     n = 31
                                 else:
                                     string_month = ''
-                                print(string_month)
-                                print(day_for_string_month)
-                                print(string_year)
-                                print(n)
-                print(day_for_string_month)
-                print(n)
     except IndexError:
         pass
     if int(day_for_string_month)>n:
         print('Try again')
         main()
-                #exit()
-
-                        # while flag==1:
-           #     print('Try again')
-                #continue
-
-
-
-    #print(string_month)
-    #print(day_for_string_month)
-
-
-
-
-
-
-            #long_delayed_action(find_delayed_year, find_delayed_month,find_delayed_day,Year,Month,Day,Hour,Minute)
 
 
     out_1 = re.sub('\w [0-2]\d:[0-5]\d', '', receive)                                                                      #удаление времени формата dd:dd из сообщения
     out_2=re.sub('\d{2}.\d{2}.\d{4}', '', out_1)                                                                        #удаление даты
     out_2_str=str(out_2)
     out=out_2_str
-    print(year)
-    print(minute)
-    print(hour)
-    print(out)
-    print(day)
+
     if year!=None and minute!=None and hour!=None and out!='':                                                                                #самый конец
         status='SUCCESS'
         day_out=''
@@ -850,9 +785,7 @@ def main():
                   sep='')
             exit()
 
-        '''elif day:
-            day_out=day
-            month_out=month'''
+
 
 
         if string_month and day_for_string_month:
@@ -860,13 +793,11 @@ def main():
             month_out=string_month
 
             out_3 = out_2_str.split()
-            #out_3.remove(day_for_string_month)
             for _ in range (2):
                 out_3.pop(all_objects.index(day_for_string_month))
 
             if string_year:
                 year=string_year
-                #for _ in range(2):
                 out_3.pop(all_objects.index(day_for_string_month))
             else:
                 pass
